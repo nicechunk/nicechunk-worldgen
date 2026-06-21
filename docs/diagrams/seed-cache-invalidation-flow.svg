@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Seed cache invalidation flow</title>
+  <desc id="desc">A diagram showing how setting a world seed clears caches before terrain profiles and generated blocks are recomputed.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071018"/><stop offset="1" stop-color="#11170d"/></linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2 2 L10 6 L2 10 Z" fill="#8fdcff"/></marker>
+    <style>.label{font:800 12px Inter,ui-sans-serif,system-ui,sans-serif;letter-spacing:.16em;fill:#90ff1a}.title{font:850 40px Inter,ui-sans-serif,system-ui,sans-serif;fill:#f3f8ff}.copy{font:500 17px Inter,ui-sans-serif,system-ui,sans-serif;fill:#b8c7d4}.card{fill:rgba(255,255,255,.06);stroke:rgba(255,255,255,.16);stroke-width:1.2;rx:18}.head{font:800 18px Inter,ui-sans-serif,system-ui,sans-serif;fill:#f3f8ff}.small{font:600 13px Inter,ui-sans-serif,system-ui,sans-serif;fill:#bdd0df}.mono{font:750 13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#f7d98f}.line{stroke:#8fdcff;stroke-width:3;fill:none;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <circle cx="1080" cy="128" r="260" fill="#83ff00" opacity=".08"/><circle cx="210" cy="608" r="280" fill="#00c2ff" opacity=".08"/>
+  <text x="70" y="78" class="label">WORLDGEN INVARIANT</text>
+  <text x="70" y="132" class="title">Seed changes must clear every derived cache.</text>
+  <text x="70" y="168" class="copy">The generator is deterministic only if cached height and profile data cannot leak from one seed into another.</text>
+  <g transform="translate(74 260)"><rect class="card" width="210" height="160"/><text x="24" y="42" class="head">setWorldSeed()</text><text x="24" y="78" class="mono">hashSeed(seed)</text><text x="24" y="112" class="small">explicit seed boundary</text></g>
+  <path class="line" d="M284 340 H346"/>
+  <g transform="translate(368 220)"><rect class="card" width="266" height="240"/><text x="24" y="42" class="head">Invalidate caches</text><text x="24" y="78" class="small">profileCache</text><text x="24" y="108" class="small">heightCache</text><text x="24" y="138" class="small">rawHeightCache</text><text x="24" y="168" class="small">baseHeightCache</text><text x="24" y="198" class="small">mountainCellCache</text></g>
+  <path class="line" d="M634 340 H696"/>
+  <g transform="translate(718 220)"><rect class="card" width="236" height="240"/><text x="24" y="42" class="head">Recompute</text><text x="24" y="78" class="small">noise fields</text><text x="24" y="108" class="small">terrain profile</text><text x="24" y="138" class="small">biome choice</text><text x="24" y="168" class="small">water and caves</text><text x="24" y="198" class="mono">x, y, z</text></g>
+  <path class="line" d="M954 340 H1016"/>
+  <g transform="translate(1038 260)"><rect class="card" width="172" height="160"/><text x="24" y="42" class="head">Output</text><text x="24" y="78" class="mono">block</text><text x="24" y="108" class="small">or empty cell</text></g>
+  <g transform="translate(264 540)"><rect class="card" width="752" height="86"/><text x="28" y="36" class="head">Fixture target</text><text x="28" y="62" class="small">Future tests should prove that representative coordinates change only when the seed or algorithm version changes.</text></g>
+</svg>

@@ -22,6 +22,14 @@ The important boundary is `getGeneratedBlock(x, y, z)`. Renderers can decide how
 
 The cache layer is an implementation detail. `setWorldSeed()` invalidates profile and height caches because cache reuse across seeds would violate the contract. That is the kind of invariant this repository should protect with fixtures as the algorithm matures.
 
+## Seed And Cache Flow
+
+![Seed and cache invalidation flow](docs/diagrams/seed-cache-invalidation-flow.svg)
+
+The seed boundary is one of the easiest places to introduce a subtle determinism bug. `setWorldSeed()` does more than store a new seed hash: it clears profile, height, raw height, base height, and mountain-cell caches so derived terrain cannot leak across worlds.
+
+That behavior should eventually be covered by fixtures. Representative coordinates should be sampled under known seeds, and downstream repositories should be able to detect when a generator change is intentional. The renderer can cache aggressively, but the generator contract needs explicit invalidation rules.
+
 ## System Principles
 
 - Determinism is the primary contract: the same seed and coordinate input must produce the same terrain profile and block result.
