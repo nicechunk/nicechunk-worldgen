@@ -12,6 +12,16 @@ The library includes world configuration, block IDs, chunk keys, terrain profile
 
 The split is important because world generation is a protocol-level behavior. If the client, scripts, and future services do not agree on generated terrain, the chain verification layer cannot be trusted.
 
+## Determinism Model
+
+![Deterministic worldgen sampling stack](docs/diagrams/deterministic-sampling-stack.svg)
+
+Worldgen should be read as a deterministic sampling contract, not just a terrain effect. The public inputs are the world seed and integer coordinates. From there, the generator derives terrain height, slope, moisture, temperature, biome, water state, vegetation, cave gaps, and final block identity through stable functions.
+
+The important boundary is `getGeneratedBlock(x, y, z)`. Renderers can decide how to draw the result, but they should not decide what exists at a coordinate. This keeps the same world available to the browser client, verification scripts, resource rules, and future services.
+
+The cache layer is an implementation detail. `setWorldSeed()` invalidates profile and height caches because cache reuse across seeds would violate the contract. That is the kind of invariant this repository should protect with fixtures as the algorithm matures.
+
 ## System Principles
 
 - Determinism is the primary contract: the same seed and coordinate input must produce the same terrain profile and block result.
