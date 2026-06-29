@@ -4,6 +4,10 @@
 
 Deterministic world generation library extracted from NiceChunk.
 
+## Official Links
+
+GitHub: [https://github.com/nicechunk/nicechunk-worldgen](https://github.com/nicechunk/nicechunk-worldgen)
+
 ## Project Overview
 
 This repository isolates the deterministic world generation logic used by NiceChunk. It is meant to be imported by other projects that need the same seeded terrain behavior without depending on the full game client.
